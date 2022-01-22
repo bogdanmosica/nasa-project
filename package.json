@@ -11,6 +11,8 @@
     "client": "npm start --prefix client",
     "watch": "concurrently 'npm:server' 'npm:client",
     "deploy": "npm run build --prefix client && npm start --prefix server",
+    "deploy-cluster": "npm run build --prefix client && npm run cluster --prefix server",
+    "kill-all-clusters": "npm run kill-all-clusters --prefix server",
     "test": "npm run test --prefix server && npm run test --prefix client"
   },
   "keywords": [],

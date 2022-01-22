@@ -6,16 +6,21 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "nodemon src/server.js",
-    "start": "node src/server.js"
+    "start": "node src/server.js",
+    "cluster": "pm2 start src/server.js -i max",
+    "kill-all-clusters": "pm2 delete all"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.25.0",
     "cors": "^2.8.5",
     "csv-parse": "^5.0.4",
     "express": "^4.17.2",
-    "morgan": "^1.10.0"
+    "mongoose": "^6.1.7",
+    "morgan": "^1.10.0",
+    "pm2": "^5.1.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
