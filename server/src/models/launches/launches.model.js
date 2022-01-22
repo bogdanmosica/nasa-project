@@ -50,7 +50,7 @@ async function scheduleNewLaunch(launch) {
     }
     const newFlightNumber = await getLatestFlightNumber() + 1;
     const newLaunch = Object.assign(launch, {
-        succes: true,
+        success: true,
         upcoming: true,
         customers: ['Zero to Mastery', 'NASA'],
         flightNumber: newFlightNumber,
@@ -68,7 +68,7 @@ async function abortLaunchById(launchId) {
         flightNumber: launchId,
     }, {
         upcoming: false,
-        succes: false,
+        success: false,
     });
     return aborted.modifiedCount === 1;
 }
