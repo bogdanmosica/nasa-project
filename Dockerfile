@@ -1,6 +1,6 @@
 FROM node:lts-alpine
 
-WORKDIR /nasa-project
+WORKDIR /app
 
 COPY package*.json ./
 
