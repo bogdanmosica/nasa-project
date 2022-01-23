@@ -12,4 +12,6 @@ function getPagination(query) {
     }
 }
 
-module.exports = { getPagination };
+module.exports = {
+    getPagination,
+};

@@ -8,10 +8,6 @@ const api = require('./routes/api');
 
 const app = express();
 
-app.get('/secret', (req, res) => {
-    return res.send('Personals secret value 41');
-});
-
 app.use(
     cors({
         origin: 'http://localhost:3000'

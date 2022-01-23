@@ -4,7 +4,7 @@ require('dotenv').config();
 
 const app = require("./app");
 
-const { loadMongoose } = require("./services/mongo");
+const { mongoConnect } = require("./services/mongo");
 const { loadPlanetsData } = require("./models/planets/planets.model");
 const { loadLaunchesSpaceXData } = require("./models/launches/launches.model");
 
@@ -13,7 +13,8 @@ const PORT = process.env.PORT || 8000;
 const server = http.createServer(app);
 
 async function startServer() {
-    await loadMongoose();
+    await mongoConnect();
+
     await loadPlanetsData();
     await loadLaunchesSpaceXData();
 
