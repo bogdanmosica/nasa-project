@@ -15,6 +15,15 @@ async function httpGetLaunches() {
   });
 }
 
+// Load launches, sort by flight number and return as JSON.
+async function httpGetSpaceXLaunches() {
+  const response = await fetch(`${API_URL}/launches/spacex`);
+  const fetchedLaunches = await response.json();
+  return fetchedLaunches.sort((a, b) => {
+    return a.flightNumber - b.flightNumber;
+  });
+}
+
 // Submit given launch data to launch system.
 async function httpSubmitLaunch(launch) {
   try {
@@ -46,8 +55,9 @@ async function httpAbortLaunch(id) {
 }
 
 export {
-  httpGetPlanets,
-  httpGetLaunches,
-  httpSubmitLaunch,
   httpAbortLaunch,
+  httpGetLaunches,
+  httpGetPlanets,
+  httpGetSpaceXLaunches,
+  httpSubmitLaunch,
 };

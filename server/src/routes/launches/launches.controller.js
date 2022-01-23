@@ -1,6 +1,7 @@
 const {
     abortLaunchById,
     getAllLaunches,
+    getAllSpaceXLaunches,
     launchWithIdExists,
     scheduleNewLaunch,
 } = require('../../models/launches/launches.model');
@@ -11,6 +12,13 @@ const {
 async function httpGetAllLaunches(req, res) {
     const { skip, limit } = getPagination(req.query);
     const launches = await getAllLaunches({ skip, limit });
+
+    return res.status(200).json(launches);
+};
+
+async function httpGetAllSpaceXLaunches(req, res) {
+    const { skip, limit } = getPagination(req.query);
+    const launches = await getAllSpaceXLaunches({ skip, limit });
 
     return res.status(200).json(launches);
 };
@@ -72,4 +80,5 @@ module.exports = {
     httpAbortLaunch,
     httpAddNewLaunch,
     httpGetAllLaunches,
+    httpGetAllSpaceXLaunches,
 }

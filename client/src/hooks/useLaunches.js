@@ -4,15 +4,20 @@ import {
   httpGetLaunches,
   httpSubmitLaunch,
   httpAbortLaunch,
+  httpGetSpaceXLaunches,
 } from './requests';
 
 function useLaunches(onSuccessSound, onAbortSound, onFailureSound) {
   const [launches, saveLaunches] = useState([]);
+  const [spaceXLaunches, saveSpaceXLaunches] = useState([]);
   const [isPendingLaunch, setPendingLaunch] = useState(false);
 
   const getLaunches = useCallback(async () => {
     const fetchedLaunches = await httpGetLaunches();
     saveLaunches(fetchedLaunches);
+
+    const fetchedSpaceXLaunches = await httpGetSpaceXLaunches();
+    saveSpaceXLaunches(fetchedSpaceXLaunches);
   }, []);
 
   useEffect(() => {
@@ -60,6 +65,7 @@ function useLaunches(onSuccessSound, onAbortSound, onFailureSound) {
 
   return {
     launches,
+    spaceXLaunches,
     isPendingLaunch,
     submitLaunch,
     abortLaunch,

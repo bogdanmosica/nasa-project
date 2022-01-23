@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { Appear, Table, Paragraph } from "arwes";
 
-const History = props => {
+const SpaceX = props => {
   const tableBody = useMemo(() => {
     return props.launches?.filter((launch) => !launch.upcoming)
       .map((launch) => {
@@ -22,7 +22,7 @@ const History = props => {
 
   return <article id="history">
     <Appear animate show={props.entered}>
-      <Paragraph>History of mission launches.</Paragraph>
+      <Paragraph>SpaceX launches starting from the year 2006.</Paragraph>
       <Table animate>
         <table style={{ tableLayout: "fixed" }}>
           <thead>
@@ -44,4 +44,4 @@ const History = props => {
   </article>;
 }
 
-export default History;
+export default SpaceX;

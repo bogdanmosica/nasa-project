@@ -1,6 +1,7 @@
 const axios = require('axios');
 
-const launchesDatabase = require('./launches.mongo');
+const launchesDatabase = require('./launches.mongo').launches;
+const launchesSpaceXDatabase = require('./launches.mongo').spaceXLaunches;
 const planets = require('../planets/planets.mongo');
 
 const DEFAULT_FLIGHT_NUMBER = 100;
@@ -32,8 +33,19 @@ async function getAllLaunches({ skip, limit }) {
         .limit(limit);
 }
 
-async function saveLaunch(launch) {
-    await launchesDatabase.findOneAndUpdate({
+async function getAllSpaceXLaunches({ skip, limit }) {
+    return await launchesSpaceXDatabase
+        .find({}, { '_id': 0, '__v': 0 })
+        .sort({
+            flightNumber: 1
+        })
+        .skip(skip)
+        .limit(limit);
+}
+
+async function saveLaunch(launch, isForSpaceX) {
+    const database = isForSpaceX ? launchesSpaceXDatabase : launchesDatabase;
+    await database.findOneAndUpdate({
         flightNumber: launch.flightNumber,
     }, launch, {
         upsert: true,
@@ -59,12 +71,8 @@ async function scheduleNewLaunch(launch) {
     await saveLaunch(newLaunch);
 }
 
-async function findLaunch(filter) {
-    return await launchesDatabase.findOne(filter);
-}
-
 async function abortLaunchById(launchId) {
-    const aborted = await findLaunch({
+    const aborted = await launchesDatabase.updateOne({
         flightNumber: launchId,
     }, {
         upcoming: false,
@@ -75,7 +83,7 @@ async function abortLaunchById(launchId) {
 
 const SPACEX_API_URL = 'https://api.spacexdata.com/v4/launches/query';
 
-async function populateLaunches() {
+async function populateSpaceXLaunches() {
     console.log("Fetching SpaceX launches...");
     const response = await axios.post(SPACEX_API_URL, {
         query: {},
@@ -117,11 +125,12 @@ async function populateLaunches() {
             success: launchDoc['success'],
             customers,
         }
-        await saveLaunch(launch);
+        await saveLaunch(launch, true);
     }
 }
-async function loadLaunchesData() {
-    const firstLaunch = await findLaunch({
+
+async function loadLaunchesSpaceXData() {
+    const firstLaunch = await launchesSpaceXDatabase.findOne({
         flightNumber: 1,
         rocket: 'Falcon 1',
         mission: 'FalconSat'
@@ -130,7 +139,7 @@ async function loadLaunchesData() {
         console.log('Launch data already loaded');
         return;
     } else {
-        populateLaunches();
+        populateSpaceXLaunches();
     }
 
 }
@@ -138,7 +147,8 @@ async function loadLaunchesData() {
 module.exports = {
     abortLaunchById,
     getAllLaunches,
+    getAllSpaceXLaunches,
     launchWithIdExists,
-    loadLaunchesData,
+    loadLaunchesSpaceXData,
     scheduleNewLaunch,
 }
