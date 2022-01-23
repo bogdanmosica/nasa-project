@@ -2,7 +2,7 @@
   "name": "nasa-project-api",
   "version": "1.0.0",
   "description": "NASA Mission Control API",
-  "main": "server.js",
+  "main": "src/server.js",
   "scripts": {
     "test": "jest --detectOpenHandles",
     "test-watch": "jest --watch",
@@ -25,6 +25,7 @@
     "express": "^4.17.2",
     "mongoose": "^6.1.7",
     "morgan": "^1.10.0",
+    "nasa-project": "file:..",
     "pm2": "^5.1.2"
   },
   "devDependencies": {
