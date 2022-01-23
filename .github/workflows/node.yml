@@ -11,9 +11,10 @@ jobs:
       MONGO_URL: mongodb://localhost/nasa
     strategy:
       matrix:
-        node-version: [14.x, 16.x]
+        node-version: [12x, 14.x, 16.x]
         mongodb-version: ["4.4"]
-    runs-on: ubuntu-latest
+        os: [ubuntu-latest, macOS-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js version ${{ matrix.node-version }}
